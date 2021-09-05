@@ -1,0 +1,9 @@
+parameters:
+    paths:
+        - src
+        - tests
+    level: 1
+    checkMissingIterableValueType: false
+    excludePaths:
+        - src/*/*/Resources
+        - tests/sandbox

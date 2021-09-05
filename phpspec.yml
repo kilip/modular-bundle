@@ -1,0 +1,4 @@
+suites:
+  modular_bundle:
+    namespace: Doyo\Bundle\Modular
+    psr4_prefix: Doyo\Bundle\Modular

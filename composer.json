@@ -1,0 +1,48 @@
+{
+    "name": "doyo/modular-bundle",
+    "description": "Symfony Modular Bundle",
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Doyo\\Bundle\\Modular\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\Doyo\\Bundle\\Modular\\": "tests/",
+            "spec\\Doyo\\Bundle\\Modular\\": "spec/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Anthonius Munthi",
+            "email": "me@itstoni.com"
+        }
+    ],
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    },
+    "minimum-stability": "stable",
+    "require": {
+        "php": ">=7.4",
+        "symfony/framework-bundle": "^5.3"
+    },
+    "require-dev": {
+        "friends-of-phpspec/phpspec-code-coverage": "^6.1",
+        "friendsofphp/php-cs-fixer": "^3.1",
+        "phpstan/extension-installer": "^1.1",
+        "phpstan/phpstan": "^0.12.98",
+        "phpstan/phpstan-phpunit": "^0.12.22",
+        "phpstan/phpstan-symfony": "^0.12.44",
+        "phpunit/phpunit": "^9.5",
+        "psalm/plugin-phpunit": "^0.16.1",
+        "psalm/plugin-symfony": "^3.0",
+        "vimeo/psalm": "^4.10"
+    }
+}
