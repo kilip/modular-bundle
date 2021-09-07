@@ -209,9 +209,9 @@ jobs:
           flags: phpunit
           fail_ci_if_error: true
         continue-on-error: true
-    - name: Upload Scrutinizer coverage
-      if: matrix.coverage
-      continue-on-error: true
-      uses: sudo-bot/action-scrutinizer@latest
-      with:
-        cli-args: "--format=php-clover build/logs/phpunit.xml"
+      - name: Upload Scrutinizer coverage
+        if: matrix.coverage
+        continue-on-error: true
+        uses: sudo-bot/action-scrutinizer@latest
+        with:
+          cli-args: "--format=php-clover build/logs/phpunit.xml"
