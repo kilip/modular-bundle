@@ -23,6 +23,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
  * @covers \Doyo\Bundle\Modular\ModularBundle
  * @covers \Doyo\Bundle\Modular\Modules
  * @covers \Doyo\Bundle\Modular\Application\ModuleTrait
+ * @covers \Doyo\Bundle\Modular\Compiler\ServiceConfiguratorPass
  */
 class ModularBundleTest extends KernelTestCase
 {
