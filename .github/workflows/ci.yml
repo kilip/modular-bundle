@@ -162,7 +162,7 @@ jobs:
           - '7.4'
           - '8.0'
         include:
-          - php: '8.0'
+          - php: '7.4'
             coverage: true
       fail-fast: false
     steps:
