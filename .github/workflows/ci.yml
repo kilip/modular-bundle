@@ -154,6 +154,7 @@ jobs:
         if: matrix.coverage
         uses: codecov/codecov-action@v1
         with:
+          files: build/logs/phpspec.xml
           name: phpspec-php${{ matrix.php }}
           flags: phpspec
           fail_ci_if_error: true
@@ -214,4 +215,5 @@ jobs:
         continue-on-error: true
         uses: sudo-bot/action-scrutinizer@latest
         with:
+          files: build/logs/phpunit.xml
           cli-args: "--format=php-clover build/logs/phpunit.xml"
