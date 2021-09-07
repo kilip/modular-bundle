@@ -1,4 +1,4 @@
-name: tests
+name: CI
 
 on:
   push:
@@ -144,10 +144,10 @@ jobs:
             ./vendor/bin/phpunit
           fi
       - name: Upload Scrutinizer coverage
-        uses: sudo-bot/action-scrutinizer@latest
-        with:
-          cli-args: "--format=php-clover build/logs/clover.xml"
         if: matrix.coverage
+        run: |
+          wget https://scrutinizer-ci.com/ocular.phar
+          php ocular.phar --format=php-clover build/logs/clover.xml
 
   # phpspec
   phpspec:
@@ -192,7 +192,7 @@ jobs:
             ./vendor/bin/phpspec run -f pretty
           fi
       - name: Upload Scrutinizer coverage
-        uses: sudo-bot/action-scrutinizer@latest
-        with:
-          cli-args: "--format=php-clover build/logs/clover.xml"
         if: matrix.coverage
+        run: |
+          wget https://scrutinizer-ci.com/ocular.phar
+          php ocular.phar --format=php-clover build/logs/clover.xml
