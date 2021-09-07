@@ -13,12 +13,15 @@ declare(strict_types=1);
 
 namespace App\Test\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
+use App\Test\Contracts\PersonInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
+ * @ApiResource
  */
-class Person
+class Person implements PersonInterface
 {
     /**
      * @ORM\Id

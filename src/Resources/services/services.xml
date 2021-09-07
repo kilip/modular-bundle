@@ -1,0 +1,17 @@
+<container xmlns="http://symfony.com/schema/dic/services">
+    <services>
+        <service id="doyo.modules" class="Doyo\Bundle\Modular\Modules">
+        </service>
+        <service
+            id="doyo.routing.loader"
+            class="Doyo\Bundle\Modular\Routing\ModuleLoader"
+            public="true"
+        >
+            <argument type="string">%kernel.environment%</argument>
+            <argument type="service" id="kernel"/>
+            <argument type="service" id="routing.loader.container"/>
+            <argument type="tagged_iterator" tag="doyo.modules"/>
+            <tag name="routing.loader"/>
+        </service>
+    </services>
+</container>

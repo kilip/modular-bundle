@@ -33,6 +33,12 @@ class Kernel extends BaseKernel
         } else {
             $container->import('../config/{services}.php');
         }
+
+        if ('mongodb' === $this->getEnvironment()) {
+            $container->import('../config/doctrine/mongodb.yaml');
+        } else {
+            $container->import('../config/doctrine/orm.yaml');
+        }
     }
 
     protected function configureRoutes(RoutingConfigurator $routes): void

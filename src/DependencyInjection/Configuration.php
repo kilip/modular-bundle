@@ -23,27 +23,27 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder(): TreeBuilder
     {
+        // @codeCoverageIgnoreStart
         if (method_exists(TreeBuilder::class, 'getRootNode')) {
-            $treeBuilder = new TreeBuilder('modular_extension');
+            $treeBuilder = new TreeBuilder('doyo_modular_extension');
             $rootNode    = $treeBuilder->getRootNode();
         } else {
             $treeBuilder = new TreeBuilder();
-            $rootNode    = $treeBuilder->root('modular_extension');
+            $rootNode    = $treeBuilder->root('doyo_modular_extension');
         }
+        // @codeCoverageIgnoreEnd
 
         $rootNode
             ->children()
-                ->booleanNode('doctrine_annotation')->defaultTrue()->end()
+                ->booleanNode('use_annotation')->defaultTrue()->end()
                 ->scalarNode('module_root_dir')->defaultValue('src')->end()
                 ->arrayNode('doctrine')
                     ->addDefaultsIfNotSet()
                     ->children()
-                        ->booleanNode('use_annotation')->defaultTrue()->end()
                         ->booleanNode('use_orm')->defaultTrue()->end()
                         ->booleanNode('use_mongodb')->defaultFalse()->end()
                         ->scalarNode('entity_dir')->defaultValue('Entity')->end()
                         ->scalarNode('document_dir')->defaultValue('Document')->end()
-                        ->scalarNode('mapping_type')->defaultValue('xml')->end()
                         ->scalarNode('mapping_dir')->defaultValue('Resources/doctrine')->end()
                     ->end()
                 ->end()

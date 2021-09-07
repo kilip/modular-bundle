@@ -16,6 +16,7 @@ namespace spec\Doyo\Bundle\Modular\Compiler;
 use App\Kernel;
 use App\Test\TestModule;
 use Doyo\Bundle\Modular\Compiler\ServiceConfiguratorPass;
+use Doyo\Bundle\Modular\Modules;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use ReflectionClass;
@@ -43,7 +44,8 @@ class ServiceConfiguratorPassSpec extends ObjectBehavior
 
     public function it_should_load_configuration_from_module_resource_directory(
         ContainerBuilder $container,
-        Definition $kernelDefinition
+        Definition $kernelDefinition,
+        Modules $modules
     ) {
         $container->getDefinition('kernel')
             ->shouldBeCalled()->willReturn($kernelDefinition);
@@ -54,7 +56,16 @@ class ServiceConfiguratorPassSpec extends ObjectBehavior
         $container->getParameter('kernel.environment')->willReturn('test');
         $container->getParameter('kernel.project_dir')
             ->willReturn(\dirname($r->getFileName()));
+        $container->getParameter('kernel.cache_dir')
+            ->willReturn(sys_get_temp_dir().'/doyo-modular/cache');
         $container->fileExists(Argument::any())->willReturn(true);
+        $container->get('doyo.modules')
+            ->willReturn($modules);
+
+        $module = new TestModule();
+        $module->boot();
+        $modules->getModules()
+            ->willReturn(['test' => $module]);
 
         $container->setParameter(Argument::cetera())
             ->shouldBeCalled();

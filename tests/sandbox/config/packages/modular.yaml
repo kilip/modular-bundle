@@ -1,0 +1,12 @@
+doyo_modular: ~
+
+when@mongodb:
+  doyo_modular:
+    use_annotation: false
+    doctrine:
+      use_orm: false
+      use_mongodb: true
+
+when@xml:
+  doyo_modular:
+    use_annotation: false

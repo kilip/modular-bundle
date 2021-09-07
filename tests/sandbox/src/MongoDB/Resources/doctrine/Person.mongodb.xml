@@ -1,5 +1,5 @@
 <doctrine-mongo-mapping xmlns="http://doctrine-project.org/schemas/odm/doctrine-mongo-mapping">
-    <document name="App\MongoDB\Model\Employee" collection="employee">
+    <document name="App\MongoDB\Document\Person" collection="person">
         <id/>
         <field name="name" type="string"/>
     </document>

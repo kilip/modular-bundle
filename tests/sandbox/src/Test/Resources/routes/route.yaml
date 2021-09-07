@@ -1,0 +1,3 @@
+test_route:
+  path: /test-route
+  controller: test.controller.test

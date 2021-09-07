@@ -1,0 +1,4 @@
+<resources xmlns="https://api-platform.com/schema/metadata">
+    <resource class="App\Test\Entity\Person">
+    </resource>
+</resources>

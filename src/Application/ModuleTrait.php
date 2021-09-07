@@ -47,4 +47,13 @@ trait ModuleTrait
     {
         return $this->namespace;
     }
+
+    /**
+     * @return array<array-key,string|class-string>
+     * @codeCoverageIgnore
+     */
+    public function getResolveTargetEntities(): array
+    {
+        return [];
+    }
 }

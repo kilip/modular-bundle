@@ -11,9 +11,16 @@
 
 declare(strict_types=1);
 
-return [
+$bundles =  [
     Symfony\Bundle\FrameworkBundle\FrameworkBundle::class => ['all' => true],
-    Doctrine\Bundle\DoctrineBundle\DoctrineBundle::class => ['all' => true],
     ApiPlatform\Core\Bridge\Symfony\Bundle\ApiPlatformBundle::class => ['all' => true],
-    Doyo\Bundle\Modular\ModularBundle::class => ['all' => true],
+    Doyo\Bundle\Modular\DoyoModularBundle::class => ['all' => true],
 ];
+
+if ('mongodb' === $this->getEnvironment()) {
+    $bundles[Doctrine\Bundle\MongoDBBundle\DoctrineMongoDBBundle::class] = ['all' => true];
+} else {
+    $bundles[Doctrine\Bundle\DoctrineBundle\DoctrineBundle::class] = ['all' => true];
+}
+
+return $bundles;

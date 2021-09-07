@@ -11,11 +11,24 @@
 
 declare(strict_types=1);
 
-namespace App\MongoDB\Model;
+namespace App\MongoDB\Document;
 
-class Employee
+use App\Test\Contracts\PersonInterface;
+use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
+
+/**
+ * @ODM\Document(collection="person")
+ */
+class Person implements PersonInterface
 {
+    /**
+     * @ODM\Id
+     */
     protected string $id;
+
+    /**
+     * @ODM\Field(name="name", type="string")
+     */
     protected string $name;
 
     public function getId(): string

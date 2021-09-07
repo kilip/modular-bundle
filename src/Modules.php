@@ -28,7 +28,7 @@ class Modules
     private static array $modules = [];
 
     /**
-     * @return ModuleInterface[]
+     * @return array<array-key,ModuleInterface>
      */
     public function getModules(): array
     {
@@ -75,5 +75,10 @@ class Modules
         $paramNS   = $inflector->tableize($exp[0].'.'.$module->getName());
         $container->setParameter($paramNS.'.base_path', $module->getBasePath());
         static::$modules[$module->getName()] = $module;
+
+        $definition = $container->register('doyo.modules.'.$module->getName(), $class);
+        $definition->setPublic(true);
+        $definition->addTag('doyo.modules');
+        $definition->addMethodCall('boot');
     }
 }
