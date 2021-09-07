@@ -7,9 +7,6 @@ extensions:
     whitelist:
       - src
     format:
-      - text
-      - html
       - clover
     output:
-      html: build/html
       clover: build/logs/phpspec.xml

@@ -23,6 +23,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
  * @covers \Doyo\Bundle\Modular\ModularBundle
  * @covers \Doyo\Bundle\Modular\Modules
  * @covers \Doyo\Bundle\Modular\Application\ModuleTrait
+ * @covers \Doyo\Bundle\Modular\Compiler\ServiceConfiguratorPass
  */
 class ModularBundleTest extends KernelTestCase
 {
@@ -37,7 +38,7 @@ class ModularBundleTest extends KernelTestCase
         $this->assertTrue($container->hasParameter('foo.service'));
     }
 
-    public function test_config_loaded()
+    public function test_config_loaded(): void
     {
         static::bootKernel();
         $container = $this->getContainer();
@@ -48,7 +49,7 @@ class ModularBundleTest extends KernelTestCase
     /**
      * @dataProvider getModelLoadedTestData
      */
-    public function test_doctrine_loaded(string $class)
+    public function test_doctrine_loaded(string $class): void
     {
         static::bootKernel();
         /** @var ObjectManager $manager */
@@ -58,7 +59,7 @@ class ModularBundleTest extends KernelTestCase
         $this->assertNotNull($repository);
     }
 
-    public function getModelLoadedTestData()
+    public function getModelLoadedTestData(): array
     {
         return [
             [Person::class],
