@@ -14,7 +14,7 @@ declare(strict_types=1);
 $bundles =  [
     Symfony\Bundle\FrameworkBundle\FrameworkBundle::class => ['all' => true],
     ApiPlatform\Core\Bridge\Symfony\Bundle\ApiPlatformBundle::class => ['all' => true],
-    Doyo\Bundle\Modular\ModularBundle::class => ['all' => true],
+    Doyo\Bundle\Modular\DoyoModularBundle::class => ['all' => true],
 ];
 
 if ('mongodb' === $this->getEnvironment()) {

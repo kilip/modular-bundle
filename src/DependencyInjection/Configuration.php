@@ -25,11 +25,11 @@ class Configuration implements ConfigurationInterface
     {
         // @codeCoverageIgnoreStart
         if (method_exists(TreeBuilder::class, 'getRootNode')) {
-            $treeBuilder = new TreeBuilder('modular_extension');
+            $treeBuilder = new TreeBuilder('doyo_modular_extension');
             $rootNode    = $treeBuilder->getRootNode();
         } else {
             $treeBuilder = new TreeBuilder();
-            $rootNode    = $treeBuilder->root('modular_extension');
+            $rootNode    = $treeBuilder->root('doyo_modular_extension');
         }
         // @codeCoverageIgnoreEnd
 

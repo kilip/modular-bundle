@@ -17,7 +17,7 @@ use Doyo\Bundle\Modular\Compiler\ServiceConfiguratorPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class ModularBundle extends Bundle
+class DoyoModularBundle extends Bundle
 {
     public function build(ContainerBuilder $container): void
     {

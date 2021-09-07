@@ -80,7 +80,7 @@ class ModuleLoader extends Loader
 
     public function supports($resource, string $type = null): bool
     {
-        return 'modular' === $type;
+        return 'doyo_modular' === $type;
     }
 
     private function loadRoute(RoutingConfigurator $configurator, ModuleInterface $module): void

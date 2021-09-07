@@ -20,8 +20,8 @@ use Symfony\Component\Routing\Router;
 
 /**
  * @covers \Doyo\Bundle\Modular\DependencyInjection\Configuration
- * @covers \Doyo\Bundle\Modular\DependencyInjection\ModularExtension
- * @covers \Doyo\Bundle\Modular\ModularBundle
+ * @covers \Doyo\Bundle\Modular\DependencyInjection\DoyoModularExtension
+ * @covers \Doyo\Bundle\Modular\DoyoModularBundle
  * @covers \Doyo\Bundle\Modular\Modules
  * @covers \Doyo\Bundle\Modular\Application\ModuleTrait
  * @covers \Doyo\Bundle\Modular\Compiler\ServiceConfiguratorPass

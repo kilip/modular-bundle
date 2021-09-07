@@ -1,3 +1,0 @@
-modular:
-  doctrine:
-    use_annotation: false

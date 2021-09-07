@@ -21,7 +21,7 @@ use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 
-class ModularExtension extends Extension implements PrependExtensionInterface
+class DoyoModularExtension extends Extension implements PrependExtensionInterface
 {
     /**
      * @psalm-suppress MixedArgument
