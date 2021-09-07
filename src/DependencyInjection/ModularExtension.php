@@ -32,7 +32,7 @@ class ModularExtension extends Extension implements PrependExtensionInterface
         $configs      = $resolvingBag->resolveValue($configs);
         /** @var array<array-key,array<array-key,string|bool|scalar>> $configs */
         $configs       = $this->processConfiguration(new Configuration(), $configs);
-        $modules      = new Modules();
+        $modules       = new Modules();
         $modules->buildModules($container);
         $container->set('doyo.modules', $modules);
         foreach ($modules->getModules() as $module) {
