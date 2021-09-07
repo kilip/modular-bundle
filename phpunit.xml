@@ -21,9 +21,10 @@
 
     <php>
         <server name="KERNEL_CLASS" value="App\Kernel"/>
-        <server name="DATABASE_URL" value="sqlite:///:memory:"/>
+        <server name="DATABASE_URL" value="sqlite:///%kernel.project_dir%/var/app.db"/>
         <server name="MONGODB_URL" value="mongodb://localhost:27017"/>
         <server name="MONGODB_DB" value="test"/>
+        <server name="APP_DEBUG" value="false"/>
     </php>
     <coverage cacheDirectory=".phpunit.cache/code-coverage"
               processUncoveredFiles="true">

@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace Tests\Doyo\Bundle\Modular;
 
+use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\ApiTestCase;
 use App\Test\Contracts\PersonInterface;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Routing\Router;
 
 /**
@@ -26,8 +26,9 @@ use Symfony\Component\Routing\Router;
  * @covers \Doyo\Bundle\Modular\Application\ModuleTrait
  * @covers \Doyo\Bundle\Modular\Compiler\ServiceConfiguratorPass
  * @covers \Doyo\Bundle\Modular\Routing\ModuleLoader
+ * @covers \Doyo\Bundle\Modular\Compiler\ValidationConfiguratorPass
  */
-class ModularBundleTest extends KernelTestCase
+class ModularBundleTest extends ApiTestCase
 {
     public function test_config_loaded(): void
     {
@@ -85,5 +86,16 @@ class ModularBundleTest extends KernelTestCase
         $router = $container->get('router');
         $this->assertNotNull($router->getRouteCollection()->get('api_people_get_collection'));
         $this->assertNotNull($router->getRouteCollection()->get('api_customers_get_collection'));
+    }
+
+    public function test_validation(): void
+    {
+        $client = static::createClient(['debug' => false]);
+        $client->request('POST', '/people', [
+            'json' => [
+            ],
+        ]);
+
+        $this->assertJsonContains(['hydra:description' => 'name: This value should not be blank.']);
     }
 }

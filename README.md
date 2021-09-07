@@ -10,3 +10,12 @@ Provide modular structure into your symfony application.
 
 [![Psalm](https://shepherd.dev/github/kilip/modular-bundle/coverage.svg)](https://shepherd.dev/github/kilip/modular-bundle)
 [![PsalmLevel](https://shepherd.dev/github/kilip/modular-bundle/level.svg)](https://shepherd.dev/github/kilip/modular-bundle)
+
+## Features
+
+* Configure doctrine Entity/Document mapping.
+* Load services in ```Resources/services``` or ```Resources/config``` directory
+* Load routes in ```Resources/routes```
+* Configure api_platform mapping to load from ```Resources/api``` directory
+* Configure serialization to load from ```Resources/serialization``` directory
+* Configure validator to load from ```Resources/validation``` directory
