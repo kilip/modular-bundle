@@ -187,9 +187,9 @@ jobs:
       - name: Run Spec Testing
         run: |
           if [ "$COVERAGE" = '1' ]; then
-            ./vendor/bin/phpspec -f pretty -c phpspec.coverage.yml
+            ./vendor/bin/phpspec run -f pretty -c phpspec.coverage.yml
           else
-            ./vendor/bin/phpspec -f pretty
+            ./vendor/bin/phpspec run -f pretty
           fi
       - name: Upload Scrutinizer coverage
         uses: sudo-bot/action-scrutinizer@latest
