@@ -16,7 +16,6 @@ namespace Tests\Doyo\Bundle\Modular;
 use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\ApiTestCase;
 use App\Test\Contracts\PersonInterface;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Routing\Router;
 
 /**
@@ -88,7 +87,6 @@ class ModularBundleTest extends ApiTestCase
         $this->assertNotNull($router->getRouteCollection()->get('api_people_get_collection'));
         $this->assertNotNull($router->getRouteCollection()->get('api_customers_get_collection'));
     }
-
 
     public function test_validation(): void
     {
