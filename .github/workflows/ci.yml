@@ -113,7 +113,7 @@ jobs:
           - '7.4'
           - '8.0'
         include:
-          - php: '7.4'
+          - php: '8.0'
             coverage: true
       fail-fast: false
     steps:
@@ -150,6 +150,14 @@ jobs:
         uses: sudo-bot/action-scrutinizer@latest
         with:
           cli-args: "--format=php-clover build/logs/phpspec.xml"
+      - name: Upload coverage results to Codecov
+        if: matrix.coverage
+        uses: codecov/codecov-action@v1
+        with:
+          name: phpspec-php${{ matrix.php }}
+          flags: phpspec
+          fail_ci_if_error: true
+        continue-on-error: true
 
   # phpunit
   phpunit:
@@ -162,7 +170,7 @@ jobs:
           - '7.4'
           - '8.0'
         include:
-          - php: '7.4'
+          - php: '8.0'
             coverage: true
       fail-fast: false
     steps:
@@ -193,6 +201,14 @@ jobs:
           else
             ./vendor/bin/phpunit
           fi
+      - name: Upload coverage results to Codecov
+        if: matrix.coverage
+        uses: codecov/codecov-action@v1
+        with:
+          name: phpunit-php${{ matrix.php }}
+          flags: phpunit
+          fail_ci_if_error: true
+        continue-on-error: true
     - name: Upload Scrutinizer coverage
       if: matrix.coverage
       continue-on-error: true
