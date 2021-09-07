@@ -149,7 +149,7 @@ jobs:
         continue-on-error: true
         run: |
           composer req --dev scrutinizer/ocular dev-master
-          php ocular.phar code-coverage:upload --format=php-clover build/logs/clover.xml
+          php ./vendor/bin/ocular code-coverage:upload --format=php-clover build/logs/clover.xml
 
   # phpunit
   phpunit:
@@ -198,4 +198,4 @@ jobs:
         continue-on-error: true
         run: |
           composer req --dev scrutinizer/ocular dev-master
-          php ocular.phar code-coverage:upload --format=php-clover build/logs/clover.xml
+          php ./vendor/bin/ocular code-coverage:upload --format=php-clover build/logs/clover.xml
