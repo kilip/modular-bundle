@@ -52,7 +52,7 @@ class ModularExtension extends Extension implements PrependExtensionInterface
 
         $this->configureParams($container, $config);
         $locator = new FileLocator(__DIR__.'/../Resources/services');
-        $loader = new XmlFileLoader($container, $locator);
+        $loader  = new XmlFileLoader($container, $locator);
         $loader->load('services.xml');
     }
 

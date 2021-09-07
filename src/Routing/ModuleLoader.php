@@ -15,7 +15,6 @@ namespace Doyo\Bundle\Modular\Routing;
 
 use Doyo\Bundle\Modular\Application\ModuleInterface;
 use Symfony\Component\Config\Loader\Loader;
-use Symfony\Component\Config\Loader\LoaderResolver;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 use Symfony\Component\Routing\Loader\ContainerLoader;
@@ -41,12 +40,11 @@ class ModuleLoader extends Loader
         KernelInterface $kernel,
         ContainerLoader $loader,
         iterable $modules
-    )
-    {
+    ) {
         parent::__construct($env);
 
-        $this->kernel = $kernel;
-        $this->loader = $loader;
+        $this->kernel  = $kernel;
+        $this->loader  = $loader;
         $this->modules = $modules;
     }
 
@@ -63,16 +61,15 @@ class ModuleLoader extends Loader
         }
 
         $loader = $this->loader;
-        $file = (new \ReflectionObject($this->kernel))->getFileName();
-        /* @psalm-var RoutingPhpFileLoader $kernelLoader */
+        $file   = (new \ReflectionObject($this->kernel))->getFileName();
+        /** @psalm-var RoutingPhpFileLoader $kernelLoader */
         $kernelLoader = $loader->getResolver()->resolve($file, 'php');
-        assert($kernelLoader instanceof RoutingPhpFileLoader);
+        \assert($kernelLoader instanceof RoutingPhpFileLoader);
         $kernelLoader->setCurrentDir(\dirname($file));
-        $collection = new RouteCollection();
+        $collection   = new RouteCollection();
         $configurator = new RoutingConfigurator($collection, $kernelLoader, $file, $file, $this->env);
 
-
-        foreach($this->modules as $module){
+        foreach ($this->modules as $module) {
             $this->loadRoute($configurator, $module);
         }
 
@@ -87,10 +84,9 @@ class ModuleLoader extends Loader
     private function loadRoute(RoutingConfigurator $configurator, ModuleInterface $module): void
     {
         $routePath = $module->getBasePath().'/Resources/routes';
-        if(is_dir($routePath)){
+        if (is_dir($routePath)) {
             $configurator->import($routePath.'/*.yaml');
             $configurator->import($routePath.'/*.xml');
         }
     }
-
 }

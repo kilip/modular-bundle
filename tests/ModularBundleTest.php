@@ -15,7 +15,6 @@ namespace Tests\Doyo\Bundle\Modular;
 
 use App\Test\Contracts\PersonInterface;
 use Doctrine\Persistence\ManagerRegistry;
-use Doctrine\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Routing\Router;
 
@@ -62,8 +61,8 @@ class ModularBundleTest extends KernelTestCase
         static::bootKernel(['environment' => $env]);
         $id = 'mongodb' === $env ? 'doctrine_mongodb' : 'doctrine';
         /** @var ManagerRegistry $registry */
-        $registry = $this->getContainer()->get($id);
-        $manager = $registry->getManager();
+        $registry   = $this->getContainer()->get($id);
+        $manager    = $registry->getManager();
         $repository = $manager->getRepository($class);
 
         $this->assertNotNull($repository);
