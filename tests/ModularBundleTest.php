@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Tests\Doyo\Bundle\Modular;
 
 use App\Test\Contracts\PersonInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Routing\Router;
@@ -25,6 +26,7 @@ use Symfony\Component\Routing\Router;
  * @covers \Doyo\Bundle\Modular\Modules
  * @covers \Doyo\Bundle\Modular\Application\ModuleTrait
  * @covers \Doyo\Bundle\Modular\Compiler\ServiceConfiguratorPass
+ * @covers \Doyo\Bundle\Modular\Routing\ModuleLoader
  */
 class ModularBundleTest extends KernelTestCase
 {
@@ -42,12 +44,11 @@ class ModularBundleTest extends KernelTestCase
         $this->assertTrue($container->has('test.foo_service'), 'foo service should be loaded');
     }
 
-    public function test_routes_loaded()
+    public function test_routes_loaded(): void
     {
         static::bootKernel();
-        $this->markTestSkipped();
-        $container = $this->getContainer();
 
+        $container = $this->getContainer();
         /** @var Router $router */
         $router = $container->get('router');
         $this->assertNotNull($router->getRouteCollection()->get('test_route'));
@@ -59,13 +60,12 @@ class ModularBundleTest extends KernelTestCase
     public function test_doctrine_loaded(string $class, string $env = 'test'): void
     {
         static::bootKernel(['environment' => $env]);
-
-        /** @var ObjectManager $manager */
         $id = 'mongodb' === $env ? 'doctrine_mongodb' : 'doctrine';
-
-        $manager = $this->getContainer()->get($id)
-            ->getManager();
+        /** @var ManagerRegistry $registry */
+        $registry = $this->getContainer()->get($id);
+        $manager = $registry->getManager();
         $repository = $manager->getRepository($class);
+
         $this->assertNotNull($repository);
     }
 

@@ -15,9 +15,11 @@ namespace Doyo\Bundle\Modular\DependencyInjection;
 
 use Doyo\Bundle\Modular\Application\ModuleInterface;
 use Doyo\Bundle\Modular\Modules;
+use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
+use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 
 class ModularExtension extends Extension implements PrependExtensionInterface
 {
@@ -49,6 +51,9 @@ class ModularExtension extends Extension implements PrependExtensionInterface
         $config        = $this->processConfiguration($configuration, $configs);
 
         $this->configureParams($container, $config);
+        $locator = new FileLocator(__DIR__.'/../Resources/services');
+        $loader = new XmlFileLoader($container, $locator);
+        $loader->load('services.xml');
     }
 
     /**

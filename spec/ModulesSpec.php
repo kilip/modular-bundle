@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace spec\Doyo\Bundle\Modular;
 
+use App\MongoDB\MongoDBModule;
+use App\Test\TestModule;
 use Doyo\Bundle\Modular\Modules;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
@@ -23,7 +25,8 @@ class ModulesSpec extends ObjectBehavior
 {
     public function let(
         ContainerBuilder $container,
-        Definition $kernelDefinition
+        Definition $kernelDefinition,
+        Definition $moduleDefinition
     ) {
         $kernelDefinition->getClass()
             ->shouldBeCalled()->willReturn('App\\Kernel');
@@ -33,6 +36,19 @@ class ModulesSpec extends ObjectBehavior
             ->shouldBeCalled();
         $container->setParameter('app.mongo_db.base_path', Argument::type('string'))
             ->shouldBeCalled();
+        $container->register('doyo.modules.test', TestModule::class)
+            ->shouldBeCalled()
+            ->willReturn($moduleDefinition);
+        $container->register('doyo.modules.mongo_db', MongoDBModule::class)
+            ->shouldBeCalled()
+            ->willReturn($moduleDefinition);
+        $moduleDefinition->setPublic(true)
+            ->shouldBeCalled();
+        $moduleDefinition->addTag('doyo.modules')
+            ->shouldBeCalled();
+        $moduleDefinition->addMethodCall('boot')
+            ->shouldBeCalled();
+
         $this->buildModules($container);
     }
 

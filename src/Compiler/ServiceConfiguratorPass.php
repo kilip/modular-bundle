@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Doyo\Bundle\Modular\Compiler;
 
 use Doyo\Bundle\Modular\Application\ModuleInterface;
+use Doyo\Bundle\Modular\Modules;
 use ReflectionClass;
 use ReflectionException;
 use Symfony\Component\Config\Builder\ConfigBuilderGenerator;
@@ -63,6 +64,7 @@ class ServiceConfiguratorPass implements CompilerPassInterface
         $loader = new DelegatingLoader($resolver);
 
         $loader->load(function (ContainerBuilder $container) use ($loader) {
+            /** @var Modules $modules */
             $modules = $container->get('doyo.modules');
             $configurator = $this->createConfigurator($container, $loader);
             foreach ($modules->getModules() as $module) {
@@ -74,6 +76,7 @@ class ServiceConfiguratorPass implements CompilerPassInterface
     /**
      * @psalm-suppress PossiblyInvalidCast
      * @psalm-suppress MissingClosureReturnType
+     * @psalm-suppress PossiblyNullOperand
      */
     private function configureService(ContainerBuilder $container, ContainerConfigurator $configurator, ModuleInterface $module): void
     {
