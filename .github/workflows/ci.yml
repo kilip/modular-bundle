@@ -148,8 +148,8 @@ jobs:
         if: matrix.coverage
         continue-on-error: true
         run: |
-          composer req --dev scrutinizer/ocular dev-master
-          php ./vendor/bin/ocular code-coverage:upload --format=php-clover build/logs/clover.xml
+          wget https://scrutinizer-ci.com/ocular.phar
+          php ocular.phar code-coverage:upload --format=php-clover build/logs/clover.xml
 
   # phpunit
   phpunit:
@@ -197,5 +197,5 @@ jobs:
         if: matrix.coverage
         continue-on-error: true
         run: |
-          composer req --dev scrutinizer/ocular dev-master
-          php ./vendor/bin/ocular code-coverage:upload --format=php-clover build/logs/clover.xml
+          wget https://scrutinizer-ci.com/ocular.phar
+          php ocular.phar code-coverage:upload --format=php-clover build/logs/clover.xml
