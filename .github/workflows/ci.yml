@@ -147,9 +147,9 @@ jobs:
       - name: Upload Scrutinizer coverage
         if: matrix.coverage
         continue-on-error: true
-        run: |
-          wget https://scrutinizer-ci.com/ocular.phar
-          php ocular.phar code-coverage:upload --format=php-clover build/logs/phpspec.xml
+        uses: sudo-bot/action-scrutinizer@latest
+        with:
+          cli-args: "--format=php-clover build/logs/phpspec.xml"
 
   # phpunit
   phpunit:
@@ -193,9 +193,9 @@ jobs:
           else
             ./vendor/bin/phpunit
           fi
-      - name: Upload Scrutinizer coverage
-        if: matrix.coverage
-        continue-on-error: true
-        run: |
-          wget https://scrutinizer-ci.com/ocular.phar
-          php ocular.phar code-coverage:upload --format=php-clover build/logs/phpunit.xml
+    - name: Upload Scrutinizer coverage
+      if: matrix.coverage
+      continue-on-error: true
+      uses: sudo-bot/action-scrutinizer@latest
+      with:
+        cli-args: "--format=php-clover build/logs/phpunit.xml"
