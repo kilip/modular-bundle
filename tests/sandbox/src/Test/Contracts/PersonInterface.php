@@ -11,17 +11,11 @@
 
 declare(strict_types=1);
 
-namespace Doyo\Bundle\Modular\Application;
+namespace App\Test\Contracts;
 
-interface ModuleInterface
+interface PersonInterface
 {
-    public function boot(): void;
+    public function getId(): string;
 
     public function getName(): string;
-
-    public function getBasePath(): string;
-
-    public function getNamespace(): string;
-
-    public function getResolveTargetEntities(): array;
 }

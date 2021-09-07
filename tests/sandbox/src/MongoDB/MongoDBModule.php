@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace App\MongoDB;
 
+use App\MongoDB\Document\Person;
+use App\Test\Contracts\PersonInterface;
 use Doyo\Bundle\Modular\Application\ModuleInterface;
 use Doyo\Bundle\Modular\Application\ModuleTrait;
 
@@ -23,5 +25,12 @@ class MongoDBModule implements ModuleInterface
     public function getName(): string
     {
         return 'mongo_db';
+    }
+
+    public function getResolveTargetEntities(): array
+    {
+        return [
+            PersonInterface::class => Person::class,
+        ];
     }
 }

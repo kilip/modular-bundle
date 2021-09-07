@@ -1,6 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
 <container xmlns="http://symfony.com/schema/dic/services">
     <services>
-        <service id="test.foo_service" class="App\Test\Services\Foo">
+        <defaults autoconfigure="true" autowire="true" public="true">
+        </defaults>
+        <service id="test.foo_service" class="App\Test\Services\Foo" public="true">
+        </service>
+        <service id="test.controllers.test" class="App\Test\Controller\TestController" public="true">
+            <tag name="controller.service_arguments"/>
         </service>
     </services>
 </container>

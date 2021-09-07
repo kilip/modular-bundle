@@ -11,11 +11,28 @@
 
 declare(strict_types=1);
 
-namespace App\Test\Model;
+namespace App\Test\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="customer")
+ * @ApiResource
+ */
 class Customer
 {
+    /**
+     * @ORM\Column
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="UUID")
+     */
     protected string $id;
+
+    /**
+     * @ORM\Column(type="string")
+     */
     protected string $name;
 
     public function getId(): string

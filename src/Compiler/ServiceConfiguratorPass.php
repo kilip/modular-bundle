@@ -14,16 +14,19 @@ declare(strict_types=1);
 namespace Doyo\Bundle\Modular\Compiler;
 
 use Doyo\Bundle\Modular\Application\ModuleInterface;
-use Doyo\Bundle\Modular\Modules;
 use ReflectionClass;
 use ReflectionException;
+use Symfony\Component\Config\Builder\ConfigBuilderGenerator;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Config\Loader\DelegatingLoader;
+use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Loader\LoaderResolver;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Loader\ClosureLoader;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\DependencyInjection\Loader\DirectoryLoader;
+use Symfony\Component\DependencyInjection\Loader\GlobFileLoader;
 use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
@@ -31,29 +34,51 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 class ServiceConfiguratorPass implements CompilerPassInterface
 {
     /**
-     * @throws ReflectionException
+     * @psalm-suppress PossiblyInvalidCast
      *
-     * @return void
+     * @throws \Exception
      */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
-        $modules = new Modules();
-        $modules->buildModules($container);
-        foreach ($modules->getModules() as $module) {
-            $this->configureService($container, $module);
-        }
+        $env              = (string) $container->getParameter('kernel.environment');
+        $projectDir       = (string) $container->getParameter('kernel.project_dir');
+        $locator          = new FileLocator($projectDir);
+        $cacheDir         = (string) $container->getParameter('kernel.cache_dir');
+        $builderGenerator = class_exists(ConfigBuilderGenerator::class) ?
+            new ConfigBuilderGenerator($cacheDir)
+            : null;
+        $resolver   = new LoaderResolver([
+            new XmlFileLoader($container, $locator, $env),
+            new YamlFileLoader($container, $locator, $env),
+            new PhpFileLoader(
+                $container,
+                $locator,
+                $env,
+                $builderGenerator
+            ),
+            new GlobFileLoader($container, $locator, $env),
+            new DirectoryLoader($container, $locator, $env),
+            new ClosureLoader($container, $env),
+        ]);
+        $loader = new DelegatingLoader($resolver);
+
+        $loader->load(function (ContainerBuilder $container) use ($loader) {
+            $modules = $container->get('doyo.modules');
+            $configurator = $this->createConfigurator($container, $loader);
+            foreach ($modules->getModules() as $module) {
+                $this->configureService($container, $configurator, $module);
+            }
+        });
     }
 
     /**
-     * @throws ReflectionException
      * @psalm-suppress PossiblyInvalidCast
+     * @psalm-suppress MissingClosureReturnType
      */
-    private function configureService(ContainerBuilder $container, ModuleInterface $module): void
+    private function configureService(ContainerBuilder $container, ContainerConfigurator $configurator, ModuleInterface $module): void
     {
-        $env          = (string) $container->getParameter('kernel.environment');
-        $configurator = $this->createConfigurator($container);
+        $env          = $container->getParameter('kernel.environment');
         $paths        = ['config', 'services'];
-
         foreach ($paths as $path) {
             if (is_dir($dir=$module->getBasePath().'/Resources/'.$path)) {
                 $configurator->import($dir.'/*.yaml');
@@ -70,28 +95,20 @@ class ServiceConfiguratorPass implements CompilerPassInterface
      * @psalm-suppress MixedAssignment
      * @psalm-suppress PossiblyInvalidCast
      * @psalm-suppress UndefinedThisPropertyFetch
-     * @psalm-suppress MissingClosureReturnType
      * @psalm-suppress PossiblyInvalidFunctionCall
+     * @psalm-suppress MissingClosureReturnType
      */
-    private function createConfigurator(ContainerBuilder $container): ContainerConfigurator
+    private function createConfigurator(ContainerBuilder $container, LoaderInterface $loader): ContainerConfigurator
     {
-        $projectDir = (string) $container->getParameter('kernel.project_dir');
         $env        = (string) $container->getParameter('kernel.environment');
-        $locator    = new FileLocator($projectDir);
-        $resolver   = new LoaderResolver([
-            new XmlFileLoader($container, $locator, $env),
-            new YamlFileLoader($container, $locator, $env),
-            new PhpFileLoader($container, $locator, $env),
-            new DirectoryLoader($container, $locator, $env),
-        ]);
-
-        $class  = $container->getDefinition('kernel')->getClass();
+        $class      = $container->getDefinition('kernel')->getClass();
         /** @var ReflectionClass $r */
         $r      = $container->getReflectionClass($class, true);
         $file   = $r->getFileName();
-        $loader = new DelegatingLoader($resolver);
+
         /** @var PhpFileLoader $kernelLoader */
         $kernelLoader = $loader->getResolver()->resolve($file);
+        $kernelLoader->setCurrentDir(\dirname($file));
         $instanceof   = &\Closure::bind(function &() { return $this->instanceof; }, $kernelLoader, $kernelLoader)();
 
         return new ContainerConfigurator($container, $kernelLoader, $instanceof, $file, $file, $env);

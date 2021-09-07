@@ -47,4 +47,12 @@ trait ModuleTrait
     {
         return $this->namespace;
     }
+
+    /**
+     * @return array<array-key,string|class-string>
+     */
+    public function getResolveTargetEntities(): array
+    {
+        return [];
+    }
 }

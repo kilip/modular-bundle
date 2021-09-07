@@ -1,0 +1,12 @@
+modular: ~
+
+when@mongodb:
+  modular:
+    use_annotation: false
+    doctrine:
+      use_orm: false
+      use_mongodb: true
+
+when@xml:
+  modular:
+    use_annotation: false
