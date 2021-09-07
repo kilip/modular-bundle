@@ -100,14 +100,18 @@ jobs:
       - name: Run PHP Stan Analyse
         run: ./vendor/bin/phpstan analyse --no-interaction --no-progress --ansi
 
-  tests:
+  phpunit:
     name: Testing (PHP ${{ matrix.php }})
     runs-on: ubuntu-latest
     timeout-minutes: 20
     strategy:
       matrix:
         php:
-          - '8'
+          - '7.4'
+          - '8.0'
+        include:
+          - php: '8.0'
+            coverage: true
       fail-fast: false
     steps:
       - name: Checkout
@@ -119,13 +123,21 @@ jobs:
           extensions: intl, bcmath, curl, openssl, mbstring
           ini-values: memory_limit=-1
           tools: pecl, composer
-          coverage: none
+          coverage: pcov
       - name: Cache Composer cache
         uses: actions/cache@v2
         with:
           path: ~/.composer/cache
           key: composer-cache-php${{ matrix.php }}
+      - name: Enable code coverage
+        if: matrix.coverage
+        run: echo "COVERAGE=1" >> $GITHUB_ENV
       - name: Install dependencies
         run: composer install --prefer-dist --no-interaction --no-progress
       - name: Run PHP Unit
-        run: ./vendor/bin/phpunit
+        run: |
+          if [ "$COVERAGE" = '1' ]; then
+            ./vendor/bin/phpunit --coverage-clover build/logs/clover.xml
+          else
+            ./vendor/bin/phpunit
+          fi
