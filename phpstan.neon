@@ -1,9 +1,12 @@
 parameters:
     paths:
         - src
-        - tests
-    level: 1
+    level: 6
     checkMissingIterableValueType: false
+    checkGenericClassInNonGenericObjectType: false
     excludePaths:
         - src/*/*/Resources
         - tests/sandbox
+    ignoreErrors:
+      - '#TreeBuilder constructor invoked with 0 parameters#'
+      - '#Call to an undefined method [a-zA-Z0-9\\_]+TreeBuilder::root()\(\)#'

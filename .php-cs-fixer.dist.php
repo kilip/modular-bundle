@@ -7,7 +7,7 @@ $finder = PhpCsFixer\Finder::create()
     ->exclude(['var', 'build', 'bootstrap/cache', 'storage']);
 
 $header = <<<'HEADER'
-This file is part of the Doyo Modular Bundle project.
+This file is part of the ModularBundle project.
 
 (c) Anthonius Munthi <https://itstoni.com>
 

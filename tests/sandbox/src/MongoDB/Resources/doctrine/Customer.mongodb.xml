@@ -1,0 +1,6 @@
+<doctrine-mongo-mapping xmlns="http://doctrine-project.org/schemas/odm/doctrine-mongo-mapping">
+    <document name="App\MongoDB\Model\Employee" collection="employee">
+        <id/>
+        <field name="name" type="string"/>
+    </document>
+</doctrine-mongo-mapping>

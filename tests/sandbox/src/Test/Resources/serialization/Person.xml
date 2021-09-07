@@ -1,0 +1,5 @@
+<serializer xmlns="http://symfony.com/schema/dic/serializer-mapping">
+    <class name="App\Test\Entity\Person">
+
+    </class>
+</serializer>

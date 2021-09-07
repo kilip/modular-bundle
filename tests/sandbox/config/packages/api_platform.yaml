@@ -1,0 +1,8 @@
+parameters:
+  api_orm_enabled: '%env(bool:default:true:resolve:ORM_ENABLED)%'
+  api_mongodb_enabled: false
+api_platform:
+  doctrine:
+    enabled: true
+  doctrine_mongodb_odm:
+    enabled: false

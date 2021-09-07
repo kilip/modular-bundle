@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Doyo Modular Bundle project.
+ * This file is part of the ModularBundle project.
  *
  * (c) Anthonius Munthi <https://itstoni.com>
  *
@@ -11,8 +11,8 @@
 
 declare(strict_types=1);
 
-namespace Doyo\Bundle\Modular;
+namespace App\Test\Services;
 
-class KernelTrait
+class Foo
 {
 }

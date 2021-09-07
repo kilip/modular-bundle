@@ -1,0 +1,6 @@
+<container xmlns="http://symfony.com/schema/dic/services">
+    <services>
+        <service id="doyo.modules" class="Doyo\Bundle\Modular\Modules">
+        </service>
+    </services>
+</container>

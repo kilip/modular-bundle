@@ -1,0 +1,15 @@
+suites:
+  modular_bundle:
+    namespace: Doyo\Bundle\Modular
+    psr4_prefix: Doyo\Bundle\Modular
+extensions:
+  FriendsOfPhpSpec\PhpSpec\CodeCoverage\CodeCoverageExtension:
+    whitelist:
+      - src
+    format:
+      - text
+      - html
+      - clover
+    output:
+      html: build/html
+      clover: build/logs/phpspec.xml
