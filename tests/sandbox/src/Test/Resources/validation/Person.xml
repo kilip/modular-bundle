@@ -1,0 +1,7 @@
+<constraint-mapping xmlns="http://symfony.com/schema/dic/constraint-mapping">
+    <class name="App\Test\Entity\Person">
+        <property name="name">
+            <constraint name="NotBlank"/>
+        </property>
+    </class>
+</constraint-mapping>

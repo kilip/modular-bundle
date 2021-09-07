@@ -92,6 +92,8 @@ class DoyoModularExtension extends Extension implements PrependExtensionInterfac
     private function configureModule(array $configs, ContainerBuilder $container, ModuleInterface $module): void
     {
         $this->prependSerialization($configs, $container, $module);
+        // $this->configureValidation($container, $module);
+
         if ($container->hasExtension('doctrine')) {
             $this->prependOrm($configs, $container, $module);
         }
