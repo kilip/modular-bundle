@@ -50,6 +50,7 @@ trait ModuleTrait
 
     /**
      * @return array<array-key,string|class-string>
+     * @codeCoverageIgnore
      */
     public function getResolveTargetEntities(): array
     {

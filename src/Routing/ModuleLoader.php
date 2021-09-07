@@ -56,15 +56,15 @@ class ModuleLoader extends Loader
      */
     public function load($resource, string $type = null): RouteCollection
     {
+        // @codeCoverageIgnoreStart
         if (true === $this->loaded) {
             throw new \RuntimeException('Do not add the "extra" loader twice');
         }
-
+        /** @codeCoverageIgnoreEnd */
         $loader = $this->loader;
         $file   = (new \ReflectionObject($this->kernel))->getFileName();
         /** @psalm-var RoutingPhpFileLoader $kernelLoader */
         $kernelLoader = $loader->getResolver()->resolve($file, 'php');
-        \assert($kernelLoader instanceof RoutingPhpFileLoader);
         $kernelLoader->setCurrentDir(\dirname($file));
         $collection   = new RouteCollection();
         $configurator = new RoutingConfigurator($collection, $kernelLoader, $file, $file, $this->env);
@@ -72,6 +72,8 @@ class ModuleLoader extends Loader
         foreach ($this->modules as $module) {
             $this->loadRoute($configurator, $module);
         }
+
+        $this->loaded = true;
 
         return $collection;
     }

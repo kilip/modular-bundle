@@ -23,6 +23,7 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder(): TreeBuilder
     {
+        // @codeCoverageIgnoreStart
         if (method_exists(TreeBuilder::class, 'getRootNode')) {
             $treeBuilder = new TreeBuilder('modular_extension');
             $rootNode    = $treeBuilder->getRootNode();
@@ -30,6 +31,7 @@ class Configuration implements ConfigurationInterface
             $treeBuilder = new TreeBuilder();
             $rootNode    = $treeBuilder->root('modular_extension');
         }
+        // @codeCoverageIgnoreEnd
 
         $rootNode
             ->children()

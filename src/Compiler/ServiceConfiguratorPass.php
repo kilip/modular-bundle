@@ -45,10 +45,8 @@ class ServiceConfiguratorPass implements CompilerPassInterface
         $projectDir       = (string) $container->getParameter('kernel.project_dir');
         $locator          = new FileLocator($projectDir);
         $cacheDir         = (string) $container->getParameter('kernel.cache_dir');
-        $builderGenerator = class_exists(ConfigBuilderGenerator::class) ?
-            new ConfigBuilderGenerator($cacheDir)
-            : null;
-        $resolver   = new LoaderResolver([
+        $builderGenerator =new ConfigBuilderGenerator($cacheDir);
+        $resolver         = new LoaderResolver([
             new XmlFileLoader($container, $locator, $env),
             new YamlFileLoader($container, $locator, $env),
             new PhpFileLoader(
