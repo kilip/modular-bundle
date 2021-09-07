@@ -147,7 +147,7 @@ jobs:
         if: matrix.coverage
         run: |
           wget https://scrutinizer-ci.com/ocular.phar
-          php ocular.phar --format=php-clover build/logs/clover.xml
+          php ocular.phar code-coverage:upload --format=php-clover build/logs/clover.xml
 
   # phpspec
   phpspec:
@@ -195,4 +195,5 @@ jobs:
         if: matrix.coverage
         run: |
           wget https://scrutinizer-ci.com/ocular.phar
-          php ocular.phar --format=php-clover build/logs/clover.xml
+          php ocular.phar code-coverage:upload --format=php-clover build/logs/clover.xml
+        continue-on-error: true
