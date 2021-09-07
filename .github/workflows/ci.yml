@@ -101,53 +101,6 @@ jobs:
       - name: Run PHP Stan Analyse
         run: ./vendor/bin/phpstan analyse --no-interaction --no-progress --ansi
 
-  # phpunit
-  phpunit:
-    name: Unit (PHP ${{ matrix.php }})
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-    strategy:
-      matrix:
-        php:
-          - '7.4'
-          - '8.0'
-        include:
-          - php: '8.0'
-            coverage: true
-      fail-fast: false
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ matrix.php }}
-          extensions: intl, bcmath, curl, openssl, mbstring
-          ini-values: memory_limit=-1
-          tools: pecl, composer
-          coverage: pcov
-      - name: Cache Composer cache
-        uses: actions/cache@v2
-        with:
-          path: ~/.composer/cache
-          key: composer-cache-php${{ matrix.php }}
-      - name: Enable code coverage
-        if: matrix.coverage
-        run: echo "COVERAGE=1" >> $GITHUB_ENV
-      - name: Install dependencies
-        run: composer update --prefer-dist --no-interaction --no-progress
-      - name: Run Unit Testing
-        run: |
-          if [ "$COVERAGE" = '1' ]; then
-            ./vendor/bin/phpunit --coverage-clover build/logs/clover.xml
-          else
-            ./vendor/bin/phpunit
-          fi
-      - name: Upload Scrutinizer coverage
-        if: matrix.coverage
-        run: |
-          wget https://scrutinizer-ci.com/ocular.phar
-          php ocular.phar code-coverage:upload --format=php-clover build/logs/clover.xml
 
   # phpspec
   phpspec:
@@ -193,7 +146,56 @@ jobs:
           fi
       - name: Upload Scrutinizer coverage
         if: matrix.coverage
-        run: |
-          wget https://scrutinizer-ci.com/ocular.phar
-          php ocular.phar code-coverage:upload --format=php-clover build/logs/clover.xml
         continue-on-error: true
+        run: |
+          composer req --dev scrutinizer/ocular dev-master
+          php ocular.phar code-coverage:upload --format=php-clover build/logs/clover.xml
+
+  # phpunit
+  phpunit:
+    name: Unit (PHP ${{ matrix.php }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      matrix:
+        php:
+          - '7.4'
+          - '8.0'
+        include:
+          - php: '8.0'
+            coverage: true
+      fail-fast: false
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: intl, bcmath, curl, openssl, mbstring
+          ini-values: memory_limit=-1
+          tools: pecl, composer
+          coverage: pcov
+      - name: Cache Composer cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.composer/cache
+          key: composer-cache-php${{ matrix.php }}
+      - name: Enable code coverage
+        if: matrix.coverage
+        run: echo "COVERAGE=1" >> $GITHUB_ENV
+      - name: Install dependencies
+        run: composer update --prefer-dist --no-interaction --no-progress
+      - name: Run Unit Testing
+        run: |
+          if [ "$COVERAGE" = '1' ]; then
+            ./vendor/bin/phpunit --coverage-clover build/logs/clover.xml
+          else
+            ./vendor/bin/phpunit
+          fi
+      - name: Upload Scrutinizer coverage
+        if: matrix.coverage
+        continue-on-error: true
+        run: |
+          composer req --dev scrutinizer/ocular dev-master
+          php ocular.phar code-coverage:upload --format=php-clover build/logs/clover.xml
